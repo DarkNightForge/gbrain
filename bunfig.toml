@@ -18,4 +18,10 @@ timeout = 60_000
 # runs, so audit-emitting code paths (content-sanity, shell-audit, etc.)
 # can't leak fixture events into the operator's real ~/.gbrain/audit/. See
 # test/helpers/audit-dir-preload.ts for the full rationale.
-preload = ["./test/helpers/legacy-embedding-preload.ts", "./test/helpers/audit-dir-preload.ts"]
+#
+# source-env-preload.ts: clear an ambient GBRAIN_SOURCE inherited from the
+# developer's shell. It is the top-priority implicit source signal, so an
+# operator who exports it (the documented way to pin a shell to one source) sees
+# spurious failures in every test that asserts a lower resolution tier. Same
+# class as the audit-dir leak above.
+preload = ["./test/helpers/legacy-embedding-preload.ts", "./test/helpers/audit-dir-preload.ts", "./test/helpers/source-env-preload.ts"]
